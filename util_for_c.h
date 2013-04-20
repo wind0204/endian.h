@@ -9,6 +9,27 @@
 #include <stdint.h>
 
 
+// unions
+union union64 {
+	uint64_t ui;
+	int64_t i;
+	double f;
+};
+union union32 {
+	uint32_t ui;
+	int32_t i;
+	float f;
+};
+union union16 {
+	uint16_t ui;
+	int16_t i;
+};
+union union8 {
+	uint8_t ui;
+	int8_t i;
+};
+
+
 // A compile time assertion check
 #define __paste(foo,bar) (foo##bar)
 #define __ct_assert_with_info(predication, info) \
@@ -39,21 +60,17 @@
 	( (void*)(((int8_t*)struct_ptr)+(offset)) ) */
 
 
-// Swap
-#define __swap(p1,p2) *(p1) ^= *(p2); *(p2) ^= *(p1); *(p1) ^= *(p2);
+// I saw that __xorswap is compiled into one xchg instruction in gcc 4.6.3 Athlon X2
+#define __xorswap(p1,p2) *(p1) ^= *(p2); *(p2) ^= *(p1); *(p1) ^= *(p2);
 
-
-// unions for floating numbers
-union union64 {
-	uint64_t ui;
-	int64_t i;
-	double f;
-};
-union union32 {
-	uint32_t ui;
-	int32_t i;
-	float f;
-};
+// Most modern compilers can optimize the temporary variable in the naive swap, in which case the naive swap uses the same amount of memory and the same number of registers as the __xorswap and is at least as fast, and often faster.
+#define __swap(p1,p2)\
+{\
+	__ct_assert( sizeof(*(p2)) == sizeof(*(p1)) )\
+	typeof(*(p1)) __tmpvar = *(p1);\
+	*(p1) = *(p2);\
+	*(p2) = __tmpvar;\
+}
 
 
 // Obtain the absolute value of the given value
