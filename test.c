@@ -3,42 +3,42 @@
  */
 
 
-#include "endian.h"
 #include <stdint.h>
 #include <stdio.h>
+#include "endian.h"
 
 
 int main(int argc, char *argv[])
 {
   {
     uint64_t buffer;
-    printf("__ENDIAN = %d\n", __ENDIAN);
+    printf("__ENDIAN = %d\n", util_endian_LOCAL_ENDIAN);
 
     buffer = 0x0102030405060708u;
     printf("0x0102030405060708u is stored as --%02d-%02d-%02d-%02d-%02d-%02d-%02d-%02d->\n",
         *(uint8_t*)&buffer, *((uint8_t*)&buffer+1), *((uint8_t*)&buffer+2), *((uint8_t*)&buffer+3),
         *((uint8_t*)&buffer+4), *((uint8_t*)&buffer+5), *((uint8_t*)&buffer+6), *((uint8_t*)&buffer+7));
-    __to_another_endian(0, PDP_ENDIAN, &buffer, 8)
+    to_another_byte_order(0, util_endian_PDP_ENDIAN, &buffer, 8);
     printf("__to_another_endian(0, PDP_ENDIAN, &buffer, 8) = --%02d-%02d-%02d-%02d-%02d-%02d-%02d-%02d->\n",
         *(uint8_t*)&buffer, *((uint8_t*)&buffer+1), *((uint8_t*)&buffer+2), *((uint8_t*)&buffer+3),
         *((uint8_t*)&buffer+4), *((uint8_t*)&buffer+5), *((uint8_t*)&buffer+6), *((uint8_t*)&buffer+7));
-    __to_another_endian(PDP_ENDIAN, LITTLE_ENDIAN, &buffer, 8)
+    to_another_byte_order(util_endian_PDP_ENDIAN, util_endian_LITTLE_ENDIAN, &buffer, 8);
     printf("__to_another_endian(PDP_ENDIAN, LITTLE_ENDIAN, &buffer, 8) = --%02d-%02d-%02d-%02d-%02d-%02d-%02d-%02d->\n",
         *(uint8_t*)&buffer, *((uint8_t*)&buffer+1), *((uint8_t*)&buffer+2), *((uint8_t*)&buffer+3),
         *((uint8_t*)&buffer+4), *((uint8_t*)&buffer+5), *((uint8_t*)&buffer+6), *((uint8_t*)&buffer+7));
-    __to_another_endian(LITTLE_ENDIAN, BIG_ENDIAN, &buffer, 8)
+    to_another_byte_order(util_endian_LITTLE_ENDIAN, util_endian_BIG_ENDIAN, &buffer, 8);
     printf("__to_another_endian(LITTLE_ENDIAN, BIG_ENDIAN, &buffer, 8) = --%02d-%02d-%02d-%02d-%02d-%02d-%02d-%02d->\n",
         *(uint8_t*)&buffer, *((uint8_t*)&buffer+1), *((uint8_t*)&buffer+2), *((uint8_t*)&buffer+3),
         *((uint8_t*)&buffer+4), *((uint8_t*)&buffer+5), *((uint8_t*)&buffer+6), *((uint8_t*)&buffer+7));
-    __to_another_endian(BIG_ENDIAN, PDP_ENDIAN, &buffer, 8)
+    to_another_byte_order(util_endian_BIG_ENDIAN, util_endian_PDP_ENDIAN, &buffer, 8);
     printf("__to_another_endian(BIG_ENDIAN, PDP_ENDIAN, &buffer, 8) = --%02d-%02d-%02d-%02d-%02d-%02d-%02d-%02d->\n",
         *(uint8_t*)&buffer, *((uint8_t*)&buffer+1), *((uint8_t*)&buffer+2), *((uint8_t*)&buffer+3),
         *((uint8_t*)&buffer+4), *((uint8_t*)&buffer+5), *((uint8_t*)&buffer+6), *((uint8_t*)&buffer+7));
-    __to_another_endian(PDP_ENDIAN, BIG_ENDIAN, &buffer, 8)
+    to_another_byte_order(util_endian_PDP_ENDIAN, util_endian_BIG_ENDIAN, &buffer, 8);
     printf("__to_another_endian(PDP_ENDIAN, BIG_ENDIAN, &buffer, 8) = --%02d-%02d-%02d-%02d-%02d-%02d-%02d-%02d->\n",
         *(uint8_t*)&buffer, *((uint8_t*)&buffer+1), *((uint8_t*)&buffer+2), *((uint8_t*)&buffer+3),
         *((uint8_t*)&buffer+4), *((uint8_t*)&buffer+5), *((uint8_t*)&buffer+6), *((uint8_t*)&buffer+7));
-    __to_another_endian(BIG_ENDIAN, LITTLE_ENDIAN, &buffer, 8)
+    to_another_byte_order(util_endian_BIG_ENDIAN, util_endian_LITTLE_ENDIAN, &buffer, 8);
     printf("__to_another_endian(BIG_ENDIAN, LITTLE_ENDIAN, &buffer, 8) = --%02d-%02d-%02d-%02d-%02d-%02d-%02d-%02d->\n",
         *(uint8_t*)&buffer, *((uint8_t*)&buffer+1), *((uint8_t*)&buffer+2), *((uint8_t*)&buffer+3),
         *((uint8_t*)&buffer+4), *((uint8_t*)&buffer+5), *((uint8_t*)&buffer+6), *((uint8_t*)&buffer+7));
